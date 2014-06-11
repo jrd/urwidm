@@ -29,6 +29,7 @@ palette = [
     ('info', 'white', 'dark blue', 'bold'),
     ('error', 'white', 'dark red', 'bold'),
   ]
+urwidm.set_i18n(ok="Accept")
 ui = urwidm.raw_display.Screen()
 ui.set_mouse_tracking()
 
@@ -56,48 +57,52 @@ def connectFocus(widget, context):
   urwidm.connect_signal(widget, 'focusgain', focusGain, context)
   urwidm.connect_signal(widget, 'focuslost', focusLost, context)
 
+
+def btn4_clicked(btn):
+  dialog = urwidm.TextDialog(('info', "Button 4 clicked"), 10, 40, ('important', "Title here"))
+  dialog.run(loop.screen, loop.widget)
+
 header = urwidm.Text('Title')
 footer = urwidm.Text('Q or F10 to quit')
 
 btn1 = urwidm.ButtonMore('btn1')
-connectFocus(btn1, 'btn1')
+# connectFocus(btn1, 'btn1')
 
 btn2 = urwidm.ButtonMore('btn2')
-connectFocus(btn2, 'btn2')
+# connectFocus(btn2, 'btn2')
 
 edit = urwidm.EditMore('edit')
-connectFocus(edit, 'edit')
+# connectFocus(edit, 'edit')
 
 cb = urwidm.CheckBoxMore('checkbox')
-connectFocus(cb, 'checkbox')
+# connectFocus(cb, 'checkbox')
 
 radioGrp = []
 radio1 = urwidm.RadioButtonMore(radioGrp, 'radio1')
-connectFocus(radio1, 'radio1')
+# connectFocus(radio1, 'radio1')
 radio2 = urwidm.RadioButtonMore(radioGrp, 'radio2')
-connectFocus(radio2, 'radio2')
+# connectFocus(radio2, 'radio2')
 cols = urwidm.ColumnsMore([radio1, radio2])
-connectFocus(cols, 'cols')
+# connectFocus(cols, 'cols')
 
 txt1 = urwidm.TextMore('text1')
 btn3 = urwidm.ButtonMore('btn3')
-connectFocus(btn3, 'btn3')
-btn4 = urwidm.ButtonMore('btn4')
-connectFocus(btn4, 'btn4')
+# connectFocus(btn3, 'btn3')
+btn4 = urwidm.ButtonMore('btn4', on_press=btn4_clicked)
+# connectFocus(btn4, 'btn4')
 gf = urwidm.GridFlowMore([txt1, btn3, btn4], 10, 2, 2, 'center')
-connectFocus(gf, 'gf')
+# connectFocus(gf, 'gf')
 
 btn5 = urwidm.ButtonMore('btn5')
-connectFocus(btn5, 'btn5')
+# connectFocus(btn5, 'btn5')
 cb = urwidm.ComboBox('combo', ['item1', 'item2'])
-connectFocus(cb, 'cb')
+# connectFocus(cb, 'cb')
 pile = urwidm.PileMore([btn5, cb], cb)
-connectFocus(pile, 'pile')
+# connectFocus(pile, 'pile')
 cols2 = urwidm.ColumnsMore([urwidm.TextMore('text2'), pile])
-connectFocus(cols2, 'cols2')
+# connectFocus(cols2, 'cols2')
 
 bodyList = [
-    cb,
     cols2,
     btn1,
     cols,

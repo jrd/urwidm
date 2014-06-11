@@ -3,11 +3,8 @@
 # vim:et:sta:sts=2:sw=2:ts=2:tw=0:
 from __future__ import division, unicode_literals, print_function, absolute_import
 
-import gettext
-gettext.install('combobox')
-import sys
-sys.path.append('../lib/')
 import urwidm
+urwidm.set_i18n(ok='Ok', cancel='Annulé')
 
 
 def pause():
@@ -70,7 +67,7 @@ class ComplexWidget(urwidm.WidgetWrapMore):
     self._unsensitive_attr = attr
     try:
       if hasattr(self._w, 'unsensitive_attr'):
-        self._.unsensitive_attr = attr
+        self._unsensitive_attr = attr
       for w in self._w.widget_list:
         if hasattr(w, 'unsensitive_attr'):
           w.unsensitive_attr = attr

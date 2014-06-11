@@ -8,6 +8,9 @@ Based on the work on curses_misc.py in Wicd.
 from __future__ import unicode_literals
 
 __copyright__ = 'Copyright 2013-2014, Salix OS, 2008-2009 Andrew Psaltis'
+__author__ = 'Cyrille Pontvieux <jrd@salixos.org>'
+__credits__ = ['Cyrille Pontvieux']
+__email__ = 'jrd@salixos.org'
 __license__ = 'LGPL'
 __version__ = '0.1.0'
 
@@ -16,12 +19,17 @@ from urwid.signals import _signals as urwid_signals
 from urwid.canvas import apply_text_layout as urwid_apply_text_layout
 from urwid.util import is_mouse_press as urwid_is_mouse_press
 from urwid.util import is_mouse_event as urwid_is_mouse_event
-import gettext
 import re
-try:
-  _
-except NameError:
-  gettext.install('')
+
+i18n = {
+  'ok': "OK",
+  'cancel': "Cancel",
+}
+
+
+def set_i18n(**kwargs):
+  for key, translation in kwargs.items():
+    i18n[key] = translation
 
 
 class FocusEventWidget(Widget):
@@ -1450,7 +1458,9 @@ class Dialog2(WidgetWrapMore):
 
 class TextDialog(Dialog2):
   """ Simple dialog with text and "OK" button. """
-  def __init__(self, text, height, width, header=None, align='left', buttons=(_('OK'), 1)):
+  def __init__(self, text, height, width, header=None, align='left', buttons=None):
+    if not buttons:
+      buttons = (i18n['ok'], 1)
     l = [Text(text)]
     body = ListBoxMore(SimpleListWalker(l))
     body = AttrWrapMore(body, 'body')
@@ -1471,13 +1481,15 @@ class TextDialog(Dialog2):
 
 class InputDialog(Dialog2):
   """ Simple dialog with text and entry. """
-  def __init__(self, text, height, width, ok_name=_('OK'), edit_text=''):
+  def __init__(self, text, height, width, ok_name=None, edit_text=''):
+    if not ok_name:
+      ok_name = i18n['ok']
     self.edit = EditMore(wrap='clip', edit_text=edit_text)
     body = ListBoxMore(SimpleListWalker([self.edit]))
     body = AttrWrapMore(body, 'editbx', 'editfc')
     Dialog2.__init__(self, text, height, width, body)
     self.frame.set_focus('body')
-    self.add_buttons([(ok_name, 0), (_('Cancel'), -1)])
+    self.add_buttons([(ok_name, 0), (i18n['cancel'], -1)])
 
   def unhandled_key(self, size, k):
     """ Handle keys. """
