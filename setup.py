@@ -7,6 +7,7 @@ from setuptools import setup
 import os
 import codecs
 import re
+from glob import glob
 
 
 MODULE_NAME = 'urwidm'
@@ -42,6 +43,8 @@ def find_info(info, *file_paths):
 def find_version(*file_paths):
   return find_info('version', *file_paths)
 
+doc_dir = os.path.join('doc', '{0}-{1}'.format(MODULE_NAME, find_version(MODULE_NAME)))
+doc_files = glob(os.path.join('examples', '*'))
 config = {
   'name': 'UrwidMore',
   'description': 'More widgets for Urwid',
@@ -54,6 +57,7 @@ config = {
   'download_url': 'https://github.com/jrd/urwidmore/archive/master.zip',
   'packages': [MODULE_NAME],
   'include_package_data': True,
+  'data_files': [(doc_dir, doc_files)],
   'test_suite': 'tests',
   'classifiers': [  # https://pypi.python.org/pypi?%3Aaction=list_classifiers
     'Development Status :: 4 - Beta',
